@@ -1,4 +1,5 @@
-﻿using Homework_Note_MvvM.ViewModel;
+﻿using Homework_Note_MvvM.Model;
+using Homework_Note_MvvM.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,19 @@ namespace Homework_Note_MvvM
     /// </summary>
     public partial class MainWindow : Window
     {
+        public File_Model read_write = new File_Model();
+        ApplicationViewModel myModel= new ApplicationViewModel();
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ApplicationViewModel();
+            DataContext = myModel;
+            Closing += MainWindow_Closing;
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+            read_write.Write(myModel.Notes);
         }
     }
 }

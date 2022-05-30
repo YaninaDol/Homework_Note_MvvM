@@ -17,9 +17,10 @@ namespace Homework_Note_MvvM.Model
     {
         public ObservableCollection<Note> notes { get; set; }
         public string Path;
-        public Note _note;
+        
         public File_Model()
         {
+            notes = new ObservableCollection<Note>();
             Path = "MyNotes.txt";
         }
         public void Write(ObservableCollection<Note> _notes)
@@ -30,17 +31,21 @@ namespace Homework_Note_MvvM.Model
                 File.AppendAllText(Path, item.ToString());
             }
         }
-        public void Read(ObservableCollection<Note> _notes)
+        public void Read()
         {
-            string str = File.ReadAllText(Path);
-            string[] splStr = str.Split('\n');
-            for (int i = 0; i < splStr.Length - 1; i++)
+            if (File.Exists(Path))
             {
-                string rez = splStr[i];
-                string[] value = rez.Split('\t');
-                Note _note = new Note(value[0], value[1], value[2]);
-                _notes.Add(_note);
+                string str = File.ReadAllText(Path);
+                string[] splStr = str.Split('\n');
+                for (int i = 0; i < splStr.Length - 1; i++)
+                {
+                    string rez = splStr[i];
+                    string[] value = rez.Split('\t');
+
+                    this.notes.Add(new Note(value[0], value[1], value[2]));
+                }
             }
+          
         }
     }
 }
